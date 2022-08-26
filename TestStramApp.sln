@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.32602.291
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestStramApp", "TestStramApp\TestStramApp.csproj", "{03BACAC9-EFAD-4F7F-A652-1FDB1A3F95F5}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FlyleafLib", "FlyleafLib\FlyleafLib.csproj", "{CD57BCD5-9447-475F-A7C8-DE55A95B5958}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{03BACAC9-EFAD-4F7F-A652-1FDB1A3F95F5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{03BACAC9-EFAD-4F7F-A652-1FDB1A3F95F5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{03BACAC9-EFAD-4F7F-A652-1FDB1A3F95F5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{03BACAC9-EFAD-4F7F-A652-1FDB1A3F95F5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CD57BCD5-9447-475F-A7C8-DE55A95B5958}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CD57BCD5-9447-475F-A7C8-DE55A95B5958}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CD57BCD5-9447-475F-A7C8-DE55A95B5958}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CD57BCD5-9447-475F-A7C8-DE55A95B5958}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {48EC64DC-8B58-4B34-B6B6-7DB639F84213}
+	EndGlobalSection
+EndGlobal

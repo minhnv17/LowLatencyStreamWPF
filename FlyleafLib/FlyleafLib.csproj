@@ -1,0 +1,80 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>net5.0-windows;net472</TargetFrameworks>
+	<UseWindowsForms>true</UseWindowsForms>
+	<UseWPF>true</UseWPF>
+	<PackageIcon>Flyleaf.png</PackageIcon>
+	<PackageIconUrl />
+	<RepositoryUrl></RepositoryUrl>
+	<Description>Media Player .NET Library for WPF/WinForms (based on FFmpeg/DirectX)</Description>
+	<Version>3.3.8</Version>
+	<Authors>SuRGeoNix</Authors>
+	<Copyright>SuRGeoNix © 2021</Copyright>
+	<PackageLicenseExpression>LGPL-3.0-or-later</PackageLicenseExpression>
+	<PackageProjectUrl>https://github.com/SuRGeoNix/Flyleaf</PackageProjectUrl>
+	<PackageTags>flyleaf flyleaflib video audio media player engine framework download extract ffmpeg vortice directx</PackageTags>
+	<IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    <PackageReleaseNotes>
+		Improves interrupts implementation
+		Adds draining support to VideoDecoder.GetNextFrame
+		Initializes AudioPlayer early to allow changing volume/mute (before opening any input)
+		Ensures rendering is disabled on initialization
+		Fixes critical issues with interrupts (could stop the demuxers/decoders)
+		Fixes critical race condition issues with RunThreadBase (could prevent demuxers/decoders from starting)
+	</PackageReleaseNotes>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <DocumentationFile>FlyleafLib.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="MediaFramework\MediaRenderer\Shaders\FlyleafPS.hlsl" />
+    <None Remove="MediaFramework\MediaRenderer\Shaders\FlyleafVS.hlsl" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="MediaFramework\MediaRenderer\Shaders\FlyleafPS.hlsl" />
+    <EmbeddedResource Include="MediaFramework\MediaRenderer\Shaders\FlyleafVS.hlsl" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="FFmpeg.AutoGen" Version="4.4.0" />
+    <PackageReference Include="NAudio.Core" Version="2.0.0" />
+    <PackageReference Include="NAudio.Wasapi" Version="2.0.0" />
+    <PackageReference Include="Vortice.D3DCompiler" Version="1.9.143" />
+    <PackageReference Include="Vortice.Direct3D11" Version="1.9.143" />
+    <PackageReference Include="Vortice.Mathematics" Version="1.3.21" />
+  </ItemGroup>
+  
+  <ItemGroup>
+	<Import Include="System" />
+    <Import Include="System.Drawing" />
+    <Import Include="System.Net.Http" />
+    <Import Include="System.Numerics" />
+    <Import Include="System.Windows" />
+    <Import Include="System.Windows.Forms" />
+    <Import Include="System.Xaml" />
+    <Import Include="System.Xml.Linq" />
+    <Import Include="Microsoft.CSharp" />
+    <Import Include="System.Xml" />
+    <Import Include="WindowsBase" />
+    <Import Include="WindowsFormsIntegration" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <None Include="..\.editorconfig" Link=".editorconfig" />
+    <None Include="..\Images\Flyleaf.png">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
+  </ItemGroup>
+
+</Project>
