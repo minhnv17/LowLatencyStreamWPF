@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
@@ -70,6 +71,7 @@ namespace TestStramApp
         public Config.VideoConfig Video => Config.Video;    // AspectRatio, ClearColor, VSync
         public Config.DecoderConfig Decoder => Config.Decoder;  // HWAcceleration, VideoThreads + Buffering Configuration
         public Config.DemuxerConfig Demuxer => Config.Demuxer;  // [Media]FormatOpt + Buffering Configuration
+        private Thread VideoThread;
         #endregion
 
         #region Initialize
@@ -85,19 +87,16 @@ namespace TestStramApp
 
             // Prepares Player's Configuration
             Config config = new Config();
-            config.Demuxer.FormatOpt.Add("probesize", (50 * (long)1024 * 1024).ToString());
-            config.Demuxer.FormatOpt.Add("analyzeduration", (10 * (long)1000 * 1000).ToString());
-            config.Decoder.MaxVideoFrames = 1;
-            config.Demuxer.FormatOpt.Add("rw_timeout", "5000000");
-            config.Demuxer.FormatOpt.Add("tcp_nodelay", "1");
-            config.Demuxer.FormatOpt.Add("refcounted_frames", "1");
-            config.Demuxer.FormatOpt.Add("max_delay", "1");
             config.Player.Usage = Usage.LowLatencyVideo;
+            config.Player.LowLatencyMaxVideoFrames = 1;
+            config.Demuxer.AllowTimeouts = false;
 
             // Initializes the Player
             Player = new Player(config);
             Player.OpenCompleted += Player_OpenCompleted;
 
+            //VideoThread = new Thread(new ThreadStart(OpenVideoStream));
+            //VideoThread.Start();
             OpenVideo = new RelayCommand(OpenVideoAction);
             PauseVideo = new RelayCommand(PauseVideoAction);
             PlayVideo = new RelayCommand(PlayVideoAction);
@@ -109,9 +108,9 @@ namespace TestStramApp
         public ICommand OpenVideo { get; set; }
         public ICommand PauseVideo { get; set; }
         public ICommand PlayVideo { get; set; }
-        public void OpenVideoAction(object param) { if (string.IsNullOrEmpty(UserInput)) UserInput = SampleVideo; Player.Open("udp://169.254.0.114:40005"); }
+        public void OpenVideoAction(object param) { if (string.IsNullOrEmpty(UserInput)) UserInput = SampleVideo; Player.OpenAsync("udp://232.4.130.148:40005"); }
         public void PauseVideoAction(object param) { Player.Pause(); }
-        public void PlayVideoAction(object param) { Player.Play(); }
+        public void PlayVideoAction(object param) {  }
         #endregion
 
         #region Events
@@ -122,6 +121,18 @@ namespace TestStramApp
 
             // Raise null is required for Player/Session/Config properties without property change updates (Normally, this should be called only once at the end of every OpenCompleted -mainly for video-)
             OnPropertyChanged(null);
+        }
+        private void OpenVideoStream()
+        {
+            while(true)
+            {
+                Thread.Sleep(2000);
+                if (DateTime.Now.Second - Player.lastFrameTime > 3 || Player.lastFrameTime == 0)
+                {
+                    Player.Stop();
+                    Player?.Open("udp://232.4.130.148:40005");
+                }
+            }
         }
         #endregion
     }

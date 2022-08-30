@@ -17,6 +17,7 @@ using ID3D11Texture2D = Vortice.Direct3D11.ID3D11Texture2D;
 using FlyleafLib.MediaFramework.MediaStream;
 using FlyleafLib.MediaFramework.MediaFrame;
 using FlyleafLib.MediaFramework.MediaRenderer;
+using System.Linq;
 
 namespace FlyleafLib.MediaFramework.MediaDecoder
 {
@@ -199,8 +200,8 @@ namespace FlyleafLib.MediaFramework.MediaDecoder
 
             do
             {
-                // Wait until Queue not Full or Stopped
-                if (Frames.Count >= Config.Decoder.MaxVideoFrames)
+                //Wait until Queue not Full or Stopped
+                if (Frames.Count >= 1)
                 {
                     lock (lockStatus)
                         if (Status == Status.Running) Status = Status.QueueFull;
@@ -211,7 +212,7 @@ namespace FlyleafLib.MediaFramework.MediaDecoder
                     {
                         if (Status != Status.QueueFull) break;
                         Status = Status.Running;
-                    }       
+                    }
                 }
 
                 // While Packets Queue Empty (Drain | Quit if Demuxer stopped | Wait until we get packets)
@@ -328,7 +329,15 @@ namespace FlyleafLib.MediaFramework.MediaDecoder
                         }
 
                         VideoFrame mFrame = ProcessVideoFrame(frame);
-                        if (mFrame != null) Frames.Enqueue(mFrame);
+                        if(Frames.Count >= 1)
+                        {
+                            VideoFrame a = null;
+                            Frames.TryDequeue(out a);
+                        }
+                        if (mFrame != null)
+                        {
+                            Frames.Enqueue(mFrame);
+                        }
                     }
 
                 } // Lock CodecCtx

@@ -80,6 +80,7 @@ namespace FlyleafLib.MediaPlayer
         /// </summary>
         public long         CurTime             { get => _CurTime;          set { Set(ref _CurTime, value); Seek((int) (value/10000), true); } }
         long _CurTime;
+        public int lastFrameTime;
         internal void SetCurTime(long curTime) { Set(ref _CurTime, curTime, false, nameof(CurTime)); }
 
         /// <summary>
@@ -1680,6 +1681,7 @@ namespace FlyleafLib.MediaPlayer
                     if (sleepMs < 11000 && sleepMs > 2) Thread.Sleep(sleepMs);
                     if (renderer.Present(vFrame)) actualFps++; else droppedFrames++;
                     lastPresentTime = DateTime.UtcNow.Ticks;
+                    lastFrameTime = DateTime.Now.Second;
                     vFrame = null;
                 }
             }
